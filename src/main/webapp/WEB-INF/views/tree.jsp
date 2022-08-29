@@ -198,7 +198,6 @@
 			                            					var un = pp.USER_NAME;
 			                            					var up = pp.USER_PHONE;
 			                            					var position = pp.USER_POSITION;
-			                            					var content = pp.WORK_CONTENT;
 			                            					var inner ="";
 			                            					inner += '<tr onclick="detail('+num+')">'
 			                            					inner += '<td style="text-align:center">'+ud+'</td>';
@@ -207,7 +206,6 @@
 			                            					inner += '<td style="text-align:center">'+un+'</td>';
 			                            					inner += '<td style="text-align:center">'+position+'</td>';
 			                            					inner += '<td style="text-align:center">'+up+'</td>';
-			                            					inner += '<td>'+content+'</td>';
 			                            					inner += '</tr>'
 			                            					$('#userList > tbody:last').append(inner);
 			                            				}
@@ -249,7 +247,6 @@
 			                            					var un = pp.USER_NAME;
 			                            					var up = pp.USER_PHONE;
 			                            					var position = pp.USER_POSITION;
-			                            					var content = pp.WORK_CONTENT;
 			                            					var inner ="";
 			                            					inner += '<tr onclick="detail('+num+')">'
 			                            					inner += '<td style="text-align:center">'+ud+'</td>';
@@ -258,7 +255,6 @@
 			                            					inner += '<td style="text-align:center">'+un+'</td>';
 			                            					inner += '<td style="text-align:center">'+position+'</td>';
 			                            					inner += '<td style="text-align:center">'+up+'</td>';
-			                            					inner += '<td>'+content+'</td>';
 			                            					inner += '</tr>'
 			                            					$('#userList > tbody:last').append(inner);
 			                            				}
@@ -320,7 +316,6 @@
 				                            					inner += '<td style="text-align:center">'+un+'</td>';
 				                            					inner += '<td style="text-align:center">'+position+'</td>';
 				                            					inner += '<td style="text-align:center">'+up+'</td>';
-				                            					inner += '<td>'+content+'</td>';
 				                            					inner += '</tr>'
 				                            					$('#userList > tbody:last').append(inner);
 				                            				}
@@ -422,7 +417,6 @@
                                     <th class="sorting" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 40px; text-align:center">담당자</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 40px; text-align:center">직책</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 60px; text-align:center">전화번호</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 500px;">담당업무</th>
                                 </tr></thead>
                                 
 	                                <tbody><tr>
@@ -432,7 +426,6 @@
 	                                	<td style="text-align:center">이주형</td>
 	                                	<td style="text-align:center">주임</td>
 	                                	<td style="text-align:center">070-8109-1280</td>
-	                                	<td>개인전화 관련 개통, 번호이동, 해지, 정산 등의 업무를 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -442,7 +435,6 @@
 	                                	<td style="text-align:center">이주형</td>
 	                                	<td style="text-align:center">주임</td>
 	                                	<td style="text-align:center">070-8109-1280</td>
-	                                	<td>협력사 커뮤니티 사이트로서 협력사 게시판, 장비관리, 아이디 계정관리 등을 처리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -452,7 +444,6 @@
 	                                	<td style="text-align:center">김성민</td>
 	                                	<td style="text-align:center">과장</td>
 	                                	<td style="text-align:center">070-8109-1272</td>
-	                                	<td>고객 사용요금에 대한 과금을 진행하고, 과금액에 대한 운영 지원</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -462,7 +453,6 @@
 	                                	<td style="text-align:center">김성민</td>
 	                                	<td style="text-align:center">과장</td>
 	                                	<td style="text-align:center">070-8109-1272</td>
-	                                	<td>상담, 청구, 수납, 해지방어, 로밍, 민원, 배치, 공청, 채권위임, TM 등 고객 관리를 위한 전반적인 기능을 제공</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -472,7 +462,6 @@
 	                                	<td style="text-align:center">박진석</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1282</td>
-	                                	<td>고객 단말기(장비) 입출고를 관리하는 시스템으로 장비단가, 재고 현황, 마감 등을 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -482,7 +471,6 @@
 	                                	<td style="text-align:center">박진석</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1282</td>
-	                                	<td>협력업체가 고객에 대한 영업 및 설치 작업에 대한 수수료를 직브하기 위한 정산관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -492,7 +480,6 @@
 	                                	<td style="text-align:center">박진석</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1282</td>
-	                                	<td>Cloud UI 연동 시스템 관리, 신규 업무 기획 협의 및 지원</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -502,7 +489,6 @@
 	                                	<td style="text-align:center">정세민</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1283</td>
-	                                	<td>렌탈 서비스관련 개통, 해지 등의 업무를 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -512,7 +498,6 @@
 	                                	<td style="text-align:center">정세민</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1283</td>
-	                                	<td>설치, AS, 해지 등의 전산처리 업무를 기사님들이 현장에서 즉시 처리할 수 있게 지원하는 모바일 시스템</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -522,7 +507,6 @@
 	                                	<td style="text-align:center">정세민</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1283</td>
-	                                	<td>현장 기사님들이 작업한 내용을 사진촬영하고 검수 할 수 있도록 지원</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -532,7 +516,6 @@
 	                                	<td style="text-align:center">이종기</td>
 	                                	<td style="text-align:center">과장</td>
 	                                	<td style="text-align:center">070-8109-1290</td>
-	                                	<td>설치, AS, 철거 등 고객에게 계약서와 서명등을 취득 후 계약내용을 검수하도록 지원</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -542,7 +525,6 @@
 	                                	<td style="text-align:center">정세민</td>
 	                                	<td style="text-align:center">대리</td>
 	                                	<td style="text-align:center">070-8109-1283</td>
-	                                	<td>상담사 지식관리 시스템으로 상담시 필요한 정책, 상품, 교육 등 정보(지식) 등록 및 조회하여 업무를 지원</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -552,7 +534,6 @@
 	                                	<td style="text-align:center">김성민</td>
 	                                	<td style="text-align:center">과장</td>
 	                                	<td style="text-align:center">070-8109-1272</td>
-	                                	<td>신분할인, 명의도용방지, 신용정보공동 관리 등의 KAIT 연동 업무를 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -562,7 +543,6 @@
 	                                	<td style="text-align:center">이주형</td>
 	                                	<td style="text-align:center">주임</td>
 	                                	<td style="text-align:center">070-8109-1280</td>
-	                                	<td>통신사 동등결합 신청, 해지 등의 연동 업무 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -572,7 +552,6 @@
 	                                	<td style="text-align:center">이주형</td>
 	                                	<td style="text-align:center">주임</td>
 	                                	<td style="text-align:center">070-8109-1280</td>
-	                                	<td>기업전화 관련 개통, 번호이동, 해지, 정산 등의 업무를 관리</td>
 	                                </tr>
                                 
 	                                <tr>
@@ -582,7 +561,6 @@
 	                                	<td style="text-align:center">유일수</td>
 	                                	<td style="text-align:center">과장</td>
 	                                	<td style="text-align:center">010-8109-1287</td>
-	                                	<td>연체고객에 대한 연체통보문, 직권해지, 채권추심, 채무불이행등을 등재하는 시스템</td>
 	                                </tr>
                                 
                             </tbody></table>
