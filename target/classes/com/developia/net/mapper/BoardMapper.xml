@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developia.net.mapper.BoardMapper">
+
+<select id="getGroupList" resultType="com.developia.net.domain.GroupVO">
+	SELECT LPAD(' ',2*(LEVEL - 1)) || GROUP_NM AS GROUP_NM, GROUP_CODE, GROUP_PCODE, LEVEL
+	FROM NS_GROUP
+	WHERE LEVEL = 1
+	START WITH GROUP_PCODE = 0
+	CONNECT BY PRIOR GROUP_CODE = GROUP_PCODE
+</select>
+
+<select id="getSecondLevel" resultType="map">
+	SELECT GROUP_NM, GROUP_CODE, GROUP_PCODE, LEVEL
+	FROM NS_GROUP
+	WHERE LEVEL = 2
+	START WITH GROUP_PCODE = 0
+	CONNECT BY PRIOR GROUP_CODE = GROUP_PCODE
+</select>
+
+<select id="getThirdLevel" resultType="map">
+	SELECT GROUP_NM, GROUP_CODE, GROUP_PCODE, LEVEL
+	FROM NS_GROUP
+	WHERE LEVEL = 3 AND GROUP_PCODE = #{pCode}
+	START WITH GROUP_PCODE = 0
+	CONNECT BY PRIOR GROUP_CODE = GROUP_PCODE
+</select>
+
+<select id="getLastLevel" resultType="map">
+	SELECT GROUP_NM, GROUP_CODE, GROUP_PCODE, LEVEL
+	FROM NS_GROUP
+	WHERE LEVEL = 4 AND GROUP_PCODE = #{lastLevel}
+	START WITH GROUP_PCODE = 0
+	CONNECT BY PRIOR GROUP_CODE = GROUP_PCODE
+</select>
+
+
+<select id="getMember" resultType="map">
+	SELECT B.GROUP_CODE, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
+	(	
+		SELECT GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
+		(
+			SELECT GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
+			FROM NS_USER NU
+			JOIN NS_USER_GRADE NUG
+			ON NU.GRADE_CODE = NUG.GRADE_CODE
+		) A 
+		LEFT OUTER JOIN NS_USER_TITLE NUT
+		ON A.USER_TITLE = NUT.TITLE_CODE
+	) B
+	JOIN NS_GROUP NG
+	ON B.GROUP_CODE = NG.GROUP_CODE
+	WHERE B.GROUP_CODE = #{memberCode}
+</select>
+</mapper>

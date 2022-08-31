@@ -21,62 +21,137 @@
     }
     </style>
 
-	<link rel="stylesheet" href="../treeview.css" />
-    <link rel="stylesheet" href="../red-treeview.css" />
-	<link rel="stylesheet" href="screen.css" />
+	<link href="/CRUDproject/resources/css/treeview.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../red-treeview.css" />
+	
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-	<script src="cookie.js"></script>
-	<script src="../jquery.treeview.js" type="text/javascript"></script>
+	
+	<script src="../../../jquery.treeview.js" type="text/javascript"></script>
 
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$("#browser").treeview({
-			toggle: function() {
-				console.log("%s was toggled.", $(this).find(">span").text());
+	<script>
+	function showList(code){
+		
+		console.log(code);
+		$("#browser li ul").empty();
+		$.ajax({
+			type:"post",
+			url:"${contextPath}/board/secondLevel",
+			data:{"gCode":code},
+			dataType:"json",
+			success: function(result){
+				$("#browser > li:last > ul:last").remove();
+				for(let pp of result){
+					console.log(pp);
+					var Group_name = pp.GROUP_NM;
+					var Group_code = pp.GROUP_CODE;
+					var inner ="";
+					inner += '<ul id="folder_1">';
+					inner += '<li><span id="'+Group_code+'" class="folder" onClick="showList_detail('+Group_code+')">'+Group_name+'</span>';
+					inner += '</li>';
+					inner += '</ul>';
+					$('#browser > li:last').append(inner);
+				}
 			}
 		});
-
-		$("#add").click(function() {
-			var branches = $("<li><span class='folder'>New Sublist</span><ul>" +
-				"<li><span class='file'>Item1</span></li>" +
-				"<li><span class='file'>Item2</span></li></ul></li>").appendTo("#browser");
-			$("#browser").treeview({
-				add: branches
-			});
-		});
-	});
-	</script>
-	<script>
-	function showList(){
-		console.log("클릭됨 !");
-		const folder_1 = document.getElementById('folder_1');
-		if(folder_1.style.display !== 'none'){
-			folder_1.style.display = 'none';
-		}else{
-			folder_1.style.display = 'block';
-		}
+		
+		
 	}
-	function showList_detail(st){
-		console.log(st);
-		const folder_detail = document.getElementById('folder_detail_'+st);
-		if(folder_detail.style.display !== 'none'){
-			folder_detail.style.display ='none'
-		}else{
-			folder_detail.style.display ='block';
-		}
+	function showList_detail(thirdCode){
+		event.stopPropagation();
+		/* $('#'+thirdCode+'').empty(); */
+		console.log(thirdCode);
+		$.ajax({
+			type:"post",
+			url:"${contextPath}/board/thirdLevel",
+			data:{"pCode":thirdCode},
+			dataType:"json",
+			success: function(result){
+				$('#'+thirdCode+' > li').remove();
+				for(let pp of result){
+					console.log(pp);
+					var Group_name = pp.GROUP_NM;
+					var Group_pcode = pp.GROUP_PCODE;
+					var Group_code = pp.GROUP_CODE;
+					var inner = "";
+					inner += '<li><span id="'+Group_code+'" class="folder" onClick="showList_Last('+Group_code+')">'+Group_name+'</span>';
+					inner += '<ul id="fold_Last_1">';
+					inner += '</ul>';
+					inner += '</li>';
+					$('#'+thirdCode+'').append(inner);
+				}
+			}
+		});
 	}
 	
-	function showList_Last(st){
-		console.log(st);
-		
-		const folder_Last = document.getElementById('fold_Last_'+st);
-		if(folder_Last.style.display !=='none'){
-			folder_Last.style.display ='none';
-		}else{
-			folder_Last.style.display = 'block';
-		}
+	function showList_Last(lastLevel){
+		event.stopPropagation();
+		console.log(lastLevel);
+		$.ajax({
+			type:"post",
+			url:"${contextPath}/board/lastLevel",
+			data:{"lastLevel":lastLevel},
+			dataType:"json",
+			success: function(result){
+				if(result == ""){
+					console.log("null임 -> 멤버 출력하면 된다.");
+					/* showMember(lastLevel); */
+				}else{
+					showMember(lastLevel);
+					$('#'+lastLevel+' > li').remove();
+					for(let pp of result){
+						console.log(pp);
+						var Group_name = pp.GROUP_NM;
+						var Group_pcode = pp.GROUP_PCODE;
+						var Group_code = pp.GROUP_CODE;
+						var inner = "";
+						inner += '<li><span class="folder" onClick="showMember('+Group_code+')">'+Group_name+'</span>';
+						inner += '</li>';
+						$('#'+lastLevel+'').append(inner);
+					}
+				}
+			}
+		})
 	}
+	
+	function showMember(memberCode){
+		event.stopPropagation();
+		console.log(memberCode+"멤버 출력");
+		$.ajax({
+			type:"post",
+			url:"${contextPath}/board/showMember",
+			data:{"memberCode":memberCode},
+			dataType:"json",
+			success: function(result){
+				$('#userList tbody tr').empty();
+            	$('#userList > tbody:last > tr:last').remove();
+            	for(let pp of result){
+					console.log(pp);
+					var user_nm = pp.USER_NM;
+					var title_nm = pp.TITLE_NM;
+					var grade_nm = pp.GRADE_NM;
+					var group_nm = pp.GROUP_NM;
+					var user_email = pp.USER_EMAIL;
+					var user_office = pp.USER_OFFICE;
+					var user_mobile = pp.USER_MOBILE;
+					
+					var inner ="";
+					inner += '<tr onclick="detail('+user_nm+')">'
+					inner += '<td style="text-align:center">'+user_nm+'</td>';
+					inner += '<td style="text-align:center">'+grade_nm+'</td>';
+					inner += '<td style="text-align:center">'+group_nm+'</td>';
+					inner += '<td style="text-align:center">'+user_email+'</td>';
+					inner += '<td style="text-align:center">'+user_office+'</td>';
+					inner += '<td style="text-align:center">'+user_mobile+'</td>';
+					inner += '</tr>'
+					$('#userList > tbody:last').append(inner);
+				}
+			},error: function(e){
+				console.log(e);
+			}
+		})
+	}
+
 	</script>
 </head>
 <body>
@@ -84,50 +159,15 @@
 <!-- 화면 위쪽에 고정하기 위해 fixed-top 클래스 추가 -->
 <div id="main" style="width:100%">
 	<div style="width:20%; float:left;">
-	<ul id="browser" class="filetree treeview-famfamfam">
-		<li><span class="folder" onClick='showList()'>Folder 1</span>
-			<ul id="folder_1">
-				<li><span class="folder" onClick='showList_detail(1)'>Item 1</span>
-					<ul id="folder_detail_1">
-						<li><span class="file">Item 1.1.1</span></li>
-					</ul>
-				</li>
-				<li><span class="folder" onClick='showList_detail(2)'>기술IT지원실</span>
-					<ul id="folder_detail_2">
-						<li><span class="folder" onClick='showList_Last(1)'>서비스개발팀</span>
-							<ul id="fold_Last_1">
-								<li><span class="file">File 2.1.1</span></li>
-								<li><span class="file">File 2.1.2</span></li>
-							</ul>
-						</li>
-						<li><span class="folder" onClick='showList_Last(2)'>IT팀</span>
-							<ul id="fold_Last_2">
-								<li><span class="file">정보보호파트</span></li>
-								
-							</ul>
-						</li>
-						<li><span class="folder" onClick='showList_Last(3)'>네트웍관리팀</span>
-							<ul id="fold_Last_3">
-								<li><span class="file">File 2.3.1</span></li>
-								<li><span class="file">File 2.3.2</span></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li class="closed"><span class="folder" onClick='showList_detail(3)'>Item 3</span>
-					<ul id="folder_detail_3">
-						<li><span class="file">File 3.1</span></li>
-					</ul>
-				</li>
-				<li class="closed"><span class="folder" onClick='showList_detail(4)'>Item 4</span>
-					<ul id="folder_detail_4">
-						<li><span class="file">File 4.1</span></li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul>
+	<c:forEach items="${list}" var="group">
+		<ul id="browser" class="filetree treeview-famfamfam">
+			<li><span class="folder" onClick='showList(<c:out value="${group.group_code}"/>)'><c:out value="${group.group_nm}"/></span>
+			</li>
+		</ul>
+	</c:forEach>
 	</div>
+	
+	
 	<div style="margin-left:10%">
 		<div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -408,15 +448,15 @@
 	                            </form>
 	                            <div class="row">
 	                            <div class="col-sm-12">
-	                            <table id="userList" width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+	                            <table id="userList" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 65px; text-align:center">대분류</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 55px; text-align:center">중분류</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 100px; text-align:center">시스템(업무)</th>
-                                    <th class="sorting" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 40px; text-align:center">담당자</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 40px; text-align:center">직책</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 60px; text-align:center">전화번호</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 40px; text-align:center">이름</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 30px; text-align:center">직책</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 50px; text-align:center">부서</th>
+                                    <th class="sorting" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">이메일</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">내선번호</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">휴대폰 번호</th>
                                 </tr></thead>
                                 
 	                                <tbody><tr>

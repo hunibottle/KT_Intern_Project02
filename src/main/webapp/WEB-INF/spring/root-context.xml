@@ -9,10 +9,11 @@
 	
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.21.12:1521:BILL2018"></property>
-		<property name="username" value="h2232771"></property>
-		<property name="password" value="hcn12345"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		<property name="username" value="c##scott"></property>
+		<property name="password" value="tiger"></property>
 	</bean> 
+	
 	
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
     	<constructor-arg ref="hikariConfig"/>
@@ -22,5 +23,6 @@
     	<property name ="dataSource" ref="dataSource"></property>
     </bean>
    
+   <mybatis-spring:scan base-package="com.developia.net.mapper"/>
    <!-- <context:componet-scan base-package="com.developia.project01.service"></context:componet-scan> -->
 </beans>

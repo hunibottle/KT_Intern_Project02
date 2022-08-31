@@ -18,20 +18,20 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css">
-	<script src="/memberProject/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/memberProject/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	<script src="/CRUDproject/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/CRUDproject/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <!-- Bootstrap Core CSS -->
-    <link href="/memberProject/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/CRUDproject/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
-    <link href="/memberProject/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/CRUDproject/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- DataTables CSS -->
-    <link href="/memberProject/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/CRUDproject/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
     <!-- DataTables Responsive CSS -->
-    <link href="/memberProject/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link href="/CRUDproject/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/memberProject/resources/dist/css/sb-admin-2.css?aa" rel="stylesheet">
+    <link href="/CRUDproject/resources/dist/css/sb-admin-2.css?aa" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="/memberProject/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/CRUDproject/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="wrapper">
