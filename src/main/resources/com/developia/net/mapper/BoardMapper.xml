@@ -52,4 +52,48 @@
 	ON B.GROUP_CODE = NG.GROUP_CODE
 	WHERE B.GROUP_CODE = #{memberCode}
 </select>
+
+<select id="getUserDetail" resultType="map">
+	SELECT B.USER_ID, B.GROUP_CODE, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
+	(	
+		SELECT USER_ID, GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
+		(
+			SELECT USER_ID, GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
+			FROM NS_USER NU
+			JOIN NS_USER_GRADE NUG
+			ON NU.GRADE_CODE = NUG.GRADE_CODE
+		) A 
+		LEFT OUTER JOIN NS_USER_TITLE NUT
+		ON A.USER_TITLE = NUT.TITLE_CODE
+	) B
+	JOIN NS_GROUP NG
+	ON B.GROUP_CODE = NG.GROUP_CODE
+	WHERE B.USER_NM = #{user_nm}
+</select>
+
+<select id="autoComplete" parameterType="map" resultType="map">
+	SELECT DISTINCT GROUP_NM FROM NS_GROUP
+	WHERE GROUP_NM LIKE '%'||#{value}||'%'
+</select>
+
+<update id ="upDate" parameterType="com.developia.net.domain.UserVO">
+	UPDATE NS_USER SET USER_NM = #{user_nm} WHERE USER_ID = #{user_id}
+</update>
+
+ <update id ="updateUserGroup" parameterType="com.developia.net.domain.UserVO">
+	UPDATE NS_USER SET GROUP_NM = #{new_group}, group_code = #{gCode} where user_id = #{user_id}
+</update>
+
+<select id = "getGroupCode" resultType="int">
+	SELECT GROUP_CODE FROM NS_GROUP WHERE GROUP_NM = #{new_group}
+</select>
+
+<select id="getSecondLevelGroup" resultType="map">
+	SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{lv2Pcode}
+</select>
+
+<select id="getThirdLevelGroup" resultType="map">
+	SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{lv3Pcode}
+</select>
+
 </mapper>

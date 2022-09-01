@@ -39,13 +39,14 @@
 	<div id="page-wrapper">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <img src="/memberProject/resources/img/logo.png" style="height:60px; float:left; margin-top:15px; padding-right:20px">
+            	<a href="${ContextPath}/CRUDproject/board/tree">
+                <img src="/CRUDproject/resources/img/logo.png" style="height:60px; float:left; margin-top:15px; padding-right:20px">
+                </a>
                 <h1 class="jm-font" style="color:#FFFFFF">IT팀 메신저 관리 시스템</h1> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="float:right">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">담당자 추가</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">조직 수정</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="${contextPath}/board/departmentMenu">조직 관리</a></li>
                     </ul>
                 </div>
             </div>

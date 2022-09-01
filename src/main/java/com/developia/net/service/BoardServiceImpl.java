@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.developia.net.domain.GroupVO;
+import com.developia.net.domain.UserVO;
 import com.developia.net.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -48,5 +49,48 @@ public class BoardServiceImpl implements BoardService{
 	public List<Map<String, Object>> getMember(int memberCode) throws Exception {
 		return boardMapper.getMember(memberCode);
 	}
+
+
+	@Override
+	public List<Map<String, Object>> getUserDetail(String user_nm) throws Exception {
+		return boardMapper.getUserDetail(user_nm);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> autoComplete(Map<String, Object> paramMap, String value) throws Exception {
+		return boardMapper.autoComplete(paramMap, value);
+	}
+
+
+	@Override
+	public void upDate(UserVO userVO) throws Exception {
+		boardMapper.upDate(userVO);
+	}
+
+
+	@Override
+	public void updateUserGroup(String user_id, int gCode, String new_group) throws Exception {
+		boardMapper.updateUserGroup(user_id, gCode, new_group);
+	}
+
+
+	@Override
+	public int getGroupCode(String new_group) throws Exception {
+		return boardMapper.getGroupCode(new_group);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getSecondLevelGroup(int lv2Pcode) throws Exception {
+		return boardMapper.getSecondLevelGroup(lv2Pcode);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getThirdLevelGroup(int lv3Pcode) throws Exception {
+		return boardMapper.getThirdLevelGroup(lv3Pcode);
+	}
+
 
 }

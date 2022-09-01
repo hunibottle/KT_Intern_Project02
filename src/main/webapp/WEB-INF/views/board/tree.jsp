@@ -31,7 +31,6 @@
 
 	<script>
 	function showList(code){
-		
 		console.log(code);
 		$("#browser li ul").empty();
 		$.ajax({
@@ -54,9 +53,8 @@
 				}
 			}
 		});
-		
-		
 	}
+	
 	function showList_detail(thirdCode){
 		event.stopPropagation();
 		/* $('#'+thirdCode+'').empty(); */
@@ -95,7 +93,7 @@
 			success: function(result){
 				if(result == ""){
 					console.log("null임 -> 멤버 출력하면 된다.");
-					/* showMember(lastLevel); */
+					showMember(lastLevel);
 				}else{
 					showMember(lastLevel);
 					$('#'+lastLevel+' > li').remove();
@@ -134,9 +132,9 @@
 					var user_email = pp.USER_EMAIL;
 					var user_office = pp.USER_OFFICE;
 					var user_mobile = pp.USER_MOBILE;
-					
 					var inner ="";
-					inner += '<tr onclick="detail('+user_nm+')">'
+					inner += '<tr onclick="detail(\''+user_nm+'\')">'
+					inner += '<td style="text-align:center"><a href="${contextPath}/board/userUpdate/'+user_nm+'">수정</a></td>'
 					inner += '<td style="text-align:center">'+user_nm+'</td>';
 					inner += '<td style="text-align:center">'+grade_nm+'</td>';
 					inner += '<td style="text-align:center">'+group_nm+'</td>';
@@ -151,7 +149,16 @@
 			}
 		})
 	}
-
+	
+	function detail(user_nm){
+		console.log(user_nm);
+		$.ajax({
+			type:"post",
+			url:"${contextPath}/board/userUpdate",
+			data:{"user_nm":user_nm},
+			dataType:"json"
+		})
+	}
 	</script>
 </head>
 <body>
@@ -450,16 +457,19 @@
 	                            <div class="col-sm-12">
 	                            <table id="userList" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
                                 <thead>
-                                    <tr role="row">
+                                <tr role="row">
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 10px; text-align:center"></th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 40px; text-align:center">이름</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 30px; text-align:center">직책</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 50px; text-align:center">부서</th>
                                     <th class="sorting" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">이메일</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">내선번호</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">휴대폰 번호</th>
-                                </tr></thead>
+                                </tr>
+                                </thead>
                                 
 	                                <tbody><tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">개인전화</td>
@@ -469,6 +479,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">현장지원</td>
 	                                	<td style="text-align:center">Hy-Any</td>
@@ -478,6 +489,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">청구</td>
@@ -487,6 +499,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">고객관리</td>
@@ -496,6 +509,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">재고관리</td>
@@ -505,6 +519,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">수수료관리</td>
@@ -514,6 +529,7 @@
 	                                </tr>
                                 
 	                                <tr>
+	                                	<td style="text-align:center">수정</td>
 	                                	<td style="text-align:center">고객관리시스템</td>
 	                                	<td style="text-align:center">가입자관리</td>
 	                                	<td style="text-align:center">CLOUD UI</td>
@@ -522,89 +538,83 @@
 	                                	<td style="text-align:center">070-8109-1282</td>
 	                                </tr>
                                 
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">렌탈 시스템</td>
-	                                	<td style="text-align:center">정세민</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1283</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">현장지원</td>
-	                                	<td style="text-align:center">작업처리시스템(Hy-Work)</td>
-	                                	<td style="text-align:center">정세민</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1283</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">현장지원</td>
-	                                	<td style="text-align:center">사진검수 시스템(Hy-Check)</td>
-	                                	<td style="text-align:center">정세민</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1283</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">현장지원</td>
-	                                	<td style="text-align:center">전자계약시스템(Hy-Sign)</td>
-	                                	<td style="text-align:center">이종기</td>
-	                                	<td style="text-align:center">과장</td>
-	                                	<td style="text-align:center">070-8109-1290</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">현장지원</td>
-	                                	<td style="text-align:center">Hy-Helper</td>
-	                                	<td style="text-align:center">정세민</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1283</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">KAIT 연동</td>
-	                                	<td style="text-align:center">김성민</td>
-	                                	<td style="text-align:center">과장</td>
-	                                	<td style="text-align:center">070-8109-1272</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">통신사 동등결합</td>
-	                                	<td style="text-align:center">이주형</td>
-	                                	<td style="text-align:center">주임</td>
-	                                	<td style="text-align:center">070-8109-1280</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">기업전화</td>
-	                                	<td style="text-align:center">이주형</td>
-	                                	<td style="text-align:center">주임</td>
-	                                	<td style="text-align:center">070-8109-1280</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">채권추심</td>
-	                                	<td style="text-align:center">채권추심사이트</td>
-	                                	<td style="text-align:center">유일수</td>
-	                                	<td style="text-align:center">과장</td>
-	                                	<td style="text-align:center">010-8109-1287</td>
-	                                </tr>
-                                
                             </tbody></table>
                             </div></div>
+                            <div class="row">
+
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">조직 구성원</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small font-weight-bold">법무컴플라이언스팀<span class="float-right">20%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">미디어전략TF<span class="float-right">40%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">경영기획총괄<span class="float-right">60%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">고객총괄<span class="float-right">80%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">기술IT지원실<span class="float-right">Complete!</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">보도제작사업부(서울)<span class="float-right">Complete!</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">최근 업데이트 내역</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
+                                    </div>
+                                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
+                                        constantly updated collection of beautiful svg images that you can use
+                                        completely free and without attribution!</p>
+                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
+                                        unDraw →</a>
+                                </div>
+                            </div>
+
+                            <!-- Approach -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
+                                        CSS bloat and poor page performance. Custom CSS classes are used to create
+                                        custom components and custom utility classes.</p>
+                                    <p class="mb-0">Before working with this theme, you should become familiar with the
+                                        Bootstrap framework, especially the utility classes.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                             <div class="row">
                           </div>
                         </div>
