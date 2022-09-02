@@ -96,4 +96,55 @@
 	SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{lv3Pcode}
 </select>
 
+<select id="getLastLevelGroup" resultType="map">
+	SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{lvlast}
+</select>
+
+<select id="makeGroupCode" resultType="int">
+	SELECT NVL(MAX(GROUP_CODE||COUNT(1)), 0)
+	FROM
+		(
+			SELECT * FROM NS_GROUP 
+			WHERE GROUP_PCODE = #{level_3_code}
+			ORDER BY GROUP_CODE DESC
+		) A
+	WHERE ROWNUM = 1
+	GROUP BY GROUP_CODE
+</select>
+
+<insert id = "makeGroup_1">
+INSERT INTO NS_GROUP
+	VALUES
+		(
+			SEQ_GROUP.NEXTVAL,
+			10010,
+			#{nextGroupCode},
+			#{level_3_code},
+			#{groupName}
+		)
+</insert>
+
+<select id="groupCheck" resultType="int">
+	SELECT NVL(GROUP_COUNT, 0) FROM
+(
+    SELECT COUNT(GROUP_CODE) AS GROUP_COUNT FROM
+    (
+        SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{level_3_code}
+        ORDER BY GROUP_CODE DESC
+    ) 
+    A WHERE ROWNUM = 1
+) B
+</select>
+
+<select id="bigGroupCheck" resultType="int">
+	SELECT NVL(GROUP_COUNT, 0) FROM
+(
+    SELECT COUNT(GROUP_CODE) AS GROUP_COUNT FROM
+    (
+        SELECT * FROM NS_GROUP WHERE GROUP_PCODE = #{level_2_code}
+        ORDER BY GROUP_CODE DESC
+    ) 
+    A WHERE ROWNUM = 1
+) B
+</select>
 </mapper>

@@ -93,4 +93,33 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	@Override
+	public List<Map<String, Object>> getLastLevelGroup(int lvlast) throws Exception {
+		return boardMapper.getLastLevelGroup(lvlast);
+	}
+
+
+	@Override
+	public int makeGroupCode(int level_3_code) throws Exception {
+		return boardMapper.makeGroupCode(level_3_code);
+	}
+
+
+	@Override
+	public void makeGroup_1(int nextGroupCode, String groupName, int level_3_code) throws Exception {
+		boardMapper.makeGroup_1(nextGroupCode, groupName, level_3_code);
+	}
+
+
+	@Override
+	public int groupCheck(int level_3_code) throws Exception {
+		return boardMapper.groupCheck(level_3_code);
+	}
+
+
+	@Override
+	public int bigGroupCheck(int level_2_code) throws Exception {
+		return boardMapper.bigGroupCheck(level_2_code);
+	}
+
 }

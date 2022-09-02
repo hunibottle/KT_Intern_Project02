@@ -36,4 +36,14 @@ public interface BoardMapper {
 
 	List<Map<String, Object>> getThirdLevelGroup(int lv3Pcode) throws Exception;
 
+	List<Map<String, Object>> getLastLevelGroup(int lvlast) throws Exception;
+
+	public int makeGroupCode(int level_3_code) throws Exception;
+
+	public void makeGroup_1(@Param("nextGroupCode") int nextGroupCode, @Param("groupName") String groupName,
+			@Param("level_3_code") int level_3_code) throws Exception;
+
+	public int groupCheck(int level_3_code) throws Exception;
+
+	public int bigGroupCheck(int level_2_code) throws Exception;
 }

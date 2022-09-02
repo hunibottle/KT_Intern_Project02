@@ -178,4 +178,60 @@ public class BoardController {
 		log.info(list.toString());
 		return ResponseEntity.ok().body(list);
 	}
+	
+	//추가할 부서 마지막 구간 레벨
+	@ResponseBody
+	@RequestMapping("/levelLastGroup")
+	public ResponseEntity<List<Map<String, Object>>> getLastLevelGroup(Model model,
+			GroupVO groupVO, @RequestParam("Lvlast") int lvlast) throws Exception{
+		log.info(lvlast);
+		List<Map<String, Object>> list = boardService.getLastLevelGroup(lvlast);
+		log.info(list.toString());
+		return ResponseEntity.ok().body(list);
+	}
+	
+	//부서 추가 컨트롤러
+	@ResponseBody
+	@RequestMapping("/groupPlus")
+	public String groupPlus(GroupVO groupVO, @RequestParam("level_2_code") int level_2_code,
+			@RequestParam("level_3_code") int level_3_code, @RequestParam("groupName") String groupName)
+			throws Exception{
+		try {
+			log.info(level_2_code+" "+level_3_code+" "+groupName);
+			/* boardService.updateUserGroup(user_id, gCode, new_group); */
+			int check = boardService.groupCheck(level_3_code);
+			if(check == 0) {
+				int nextGroupCode = level_3_code + 10;
+				boardService.makeGroup_1(nextGroupCode, groupName, level_3_code);
+			}else {
+				int nowGroup = boardService.makeGroupCode(level_3_code);
+				log.info(nowGroup);
+				int nextGroupCode = nowGroup + 10;
+				boardService.makeGroup_1(nextGroupCode, groupName, level_3_code);
+			}
+			return "0";
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/bigGroupPlus")
+	public String bigGroupPlus(GroupVO groupVO, @RequestParam("level_2_code") int level_2_code,
+			@RequestParam("groupName") String groupName)
+			throws Exception{
+		try {
+			int check = boardService.bigGroupCheck(level_2_code);
+			if(check == 0) {
+				
+			}else {
+				
+			}
+			return "0";
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
 }
