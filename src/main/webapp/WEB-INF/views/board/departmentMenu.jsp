@@ -23,11 +23,11 @@
 					</p>
 					<br />
 					<p class="w3-center">
-						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">부서 정보 변경</button>
+						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onclick="location.href='${contextPath}/board/groupUpdate'">부서 정보 변경</button>
 					</p>
 					<br />
 					<p class="w3-center">
-						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">부서 삭제</button>
+						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onclick="location.href='${contextPath}/board/groupDelete'">부서 삭제</button>
 					</p>
 					<br />
 					<p class="w3-center">

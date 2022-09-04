@@ -234,4 +234,16 @@ public class BoardController {
 			return "1";
 		}
 	}
+	
+	//부서 수정 페이지 이동
+	@GetMapping("/groupUpdate")
+	public String groupUpdate() {
+		return "board/groupUpdate";
+	}
+	
+	//부서 삭제 페이지 이동
+	@GetMapping("/groupDelete")
+	public String groupDelete() {
+		return "board/groupDelete";
+	}
 }

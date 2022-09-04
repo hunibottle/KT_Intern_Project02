@@ -548,7 +548,7 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">조직 구성원</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">조직 구성원 (명)</h6>
                                 </div>
                                 <div class="card-body">
                                     <h4 class="small font-weight-bold">법무컴플라이언스팀<span class="float-right">20%</span></h4>
