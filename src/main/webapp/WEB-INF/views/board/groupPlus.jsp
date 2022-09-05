@@ -29,12 +29,15 @@ button.on{
 				<div class="level2" id="level2">
 				
 				</div>
+				<hr />
 				<div class="level3" id="level3">
 				
 				</div>
+				<hr />
 				<div class="level4" id="level4">
 				
 				</div>
+				<hr />
 				<p>
 					<label>부서명</label>
 					<input class="w3-input" id="grade_nm" name="grade_nm" type="text" value="${list[0].GROUP_NM}" required>
@@ -123,6 +126,7 @@ button.on{
 						$('#level3').append(html_btn);
 					}
 					var html_btn = '<button id="btn_level3" type="button" class="btn btn-success m-1" style="width:125px; background-color:#949794">선택</button>'
+					/* html_btn ='</ hr>'; */
 					$('#level3').append(html_btn);
 				}
 			})
@@ -163,6 +167,7 @@ button.on{
 					$('#level4').append(html_btn);
 				}
 				var html_btn = '<button id="btn_level4" type="button" class="btn btn-success m-1" style="width:125px; background-color:#949794" onClick="plusGroup('+level_2_code+','+level_3_code+')">선택</button>'
+				/* html_btn ='</ hr>'; */
 				$('#level4').append(html_btn);
 			}
 		})

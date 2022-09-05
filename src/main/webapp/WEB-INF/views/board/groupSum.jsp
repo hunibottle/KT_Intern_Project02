@@ -30,9 +30,11 @@ button.on{
 				<div class="level2" id="level2">
 				
 				</div>
+				<hr />
 				<div class="level3" id="level3">
 				
 				</div>
+				<hr />
 				<div class="level4" id="level4">
 				
 				</div>
@@ -45,9 +47,11 @@ button.on{
 				<div class="level2_2" id="level2_2">
 				
 				</div>
+				<hr />
 				<div class="level3_2" id="level3_2">
 				
 				</div>
+				<hr />
 				<div class="level4_2" id="level4_2">
 				
 				</div>

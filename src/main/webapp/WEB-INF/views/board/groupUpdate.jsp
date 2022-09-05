@@ -29,12 +29,15 @@ button.on{
 				<div class="level2" id="level2">
 				
 				</div>
+				<hr />
 				<div class="level3" id="level3">
 				
 				</div>
+				<hr />
 				<div class="level4" id="level4">
 				
 				</div>
+				<hr />
 				<p>
 					<label>새 부서 이름</label>
 					<input class="w3-input" id="group_nm" name="group_nm" type="text" required>
