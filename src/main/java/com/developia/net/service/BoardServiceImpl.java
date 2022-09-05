@@ -122,4 +122,53 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.bigGroupCheck(level_2_code);
 	}
 
+
+	@Override
+	public int getnewPartNum(int group_cd) throws Exception {
+		return boardMapper.getnewPartNum(group_cd);
+	}
+
+
+	@Override
+	public void makeNewPart(int newPartNum, int level_3_code, String groupNewName) throws Exception {
+		boardMapper.makeNewPart(newPartNum,level_3_code, groupNewName);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getGroupOneMember(int groupOneCode) throws Exception {
+		return boardMapper.getGroupOneMember(groupOneCode);
+	}
+
+
+	@Override
+	public void updateGroupMember(int target, int newPartNum, String groupNewName) throws Exception {
+		boardMapper.updateGroupMember(target, newPartNum, groupNewName);
+	}
+
+
+	@Override
+	public void deleteGroup(int group_code) throws Exception {
+		boardMapper.deleteGroup(group_code);
+	}
+
+
+	@Override
+	public void updateGroupName(String target, String new_name) throws Exception {
+		boardMapper.updateGroupName(target,new_name);
+	}
+
+
+	@Override
+	public void updateTeamName(int level_3_code, String new_name) throws Exception {
+		boardMapper.updateTeamName(level_3_code, new_name);
+	}
+
+
+	@Override
+	public String deleteCheckLv3(int level_3_code) throws Exception {
+		return boardMapper.deleteCheckLv3(level_3_code);
+	}
+
+
 }

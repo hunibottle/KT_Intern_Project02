@@ -189,6 +189,62 @@ button.on{
 		//update ajax 만들면 끝 !
 		//새로 변경될 부서 코드
 		//레벨별 undefine if / else로 구분한다음 해당 레벨값 업데이트 하면 됨
+		if(level_4_code === undefined && level_3_code !== undefined){
+			console.log("level3수정");
+			$.ajax({
+				type:"post",
+				url:"${contextPath}/board/groupNameUpdateLv3",
+				data:{"level_3_code": level_3_code, "new_name":new_name},
+				dataType: "text",
+				success: function(result){
+					if(result == "0"){
+						window.location.href="/CRUDproject/board/tree";
+					}else{
+						console.log("error");
+					}
+				}
+				,error: function(e){
+					console.log(e);
+				}
+			})
+		}else if(level_4_code !== undefined && level_3_code !== undefined){
+			console.log("level4수정")
+			$.ajax({
+				type:"post",
+				url:"${contextPath}/board/groupNameUpdateLv4",
+				data:{"level_4_code": level_4_code, "new_name":new_name},
+				dataType: "text",
+				success: function(result){
+					if(result == "0"){
+						window.location.href="/CRUDproject/board/tree";
+					}else{
+						console.log("error");
+					}
+				}
+				,error: function(e){
+					console.log(e);
+				}
+			})
+		}else{
+			console.log("level2수정");
+			$.ajax({
+				type:"post",
+				url:"${contextPath}/board/groupNameUpdateLv2",
+				data:{"level_2_code": level_2_code, "new_name":new_name},
+				dataType: "text",
+				success: function(result){
+					if(result == "0"){
+						window.location.href="/CRUDproject/board/tree";
+					}else{
+						console.log("error");
+					}
+				}
+				,error: function(e){
+					console.log(e);
+				}
+			})
+		}
+		
 	}
 	
 </script>

@@ -246,4 +246,235 @@ public class BoardController {
 	public String groupDelete() {
 		return "board/groupDelete";
 	}
+	
+	//부서 병합 페이지 이동
+	@GetMapping("/groupSum")
+	public String groupSum() {
+		return "board/groupSum";
+	}
+	
+	//부서 분리 페이지 이동
+	@GetMapping("/groupDivision")
+	public String groupDivision() {
+		return "board/groupDivision";
+	}
+	
+	//부서 병합 컨트롤러
+	@ResponseBody
+	@RequestMapping("/sumGroup")
+	public String sumGroup(GroupVO groupVO, @RequestParam("option") String option,
+			@RequestParam("groupOneCode") int groupOneCode, @RequestParam("groupTwoCode") int groupTwoCode,
+			@RequestParam("level_3_code") int level_3_code, @RequestParam("level_2_code") int level_2_code,
+			@RequestParam("groupNewName") String groupNewName) throws Exception{
+		try {
+			log.info(option+" "+groupOneCode+" "+groupTwoCode+" "+level_3_code+" "+level_2_code+" "+groupNewName);
+			if(option.equals("part")) {
+				log.info("파트 병합 시작");
+				//해당 파트 부서코드 가져오기 (int)
+				int getPartNum = boardService.getnewPartNum(level_3_code);
+				log.info(getPartNum);
+				int newPartNum = getPartNum + 1;
+				//새로운 부서명 insert
+				boardService.makeNewPart(newPartNum, level_3_code, groupNewName);
+				//그룹1 사원 리스트 가져오기
+				List<Map<String, Object>> list1 = boardService.getGroupOneMember(groupOneCode);
+				log.info(list1.get(0).get("GROUP_CODE").toString());
+				//그룹1 사원 새로운 부서코드로 update
+				for(int i = 0 ; i < list1.size() ; i++) {
+					int target = Integer.parseInt(list1.get(0).get("GROUP_CODE").toString());
+					boardService.updateGroupMember(target, newPartNum, groupNewName);
+				}
+				//그룹2 사원 리스트 가져오기
+				List<Map<String, Object>> list2 = boardService.getGroupOneMember(groupTwoCode);
+				//그룹2 사원 새로운 부서코드로 update
+				for(int i = 0 ; i < list2.size() ; i++) {
+					int target = Integer.parseInt(list2.get(0).get("GROUP_CODE").toString());
+					boardService.updateGroupMember(target, newPartNum, groupNewName);
+				}
+				//그룹1 삭제
+				boardService.deleteGroup(groupOneCode);
+				boardService.deleteGroup(groupTwoCode);
+				return "0";
+				//그룹2 삭제
+			}else {
+				log.info("팀으로 전환 후 병합 시작");
+				//새로운 부서코드 가져오기
+				int getPartNum = boardService.getnewPartNum(level_2_code);
+				int newPartNum = getPartNum + 100;
+				log.info(getPartNum+" "+newPartNum);
+				//새로운 부서명 insert(p코드로)
+				boardService.makeNewPart(newPartNum, level_2_code, groupNewName);
+				//그룹1 사원 리스트 가져오기
+				List<Map<String, Object>> list1 = boardService.getGroupOneMember(groupOneCode);
+				log.info(list1.get(0).get("GROUP_CODE").toString());
+				//그룹1 사원 새로운 부서코드로 update
+				for(int i = 0 ; i < list1.size() ; i++) {
+					int target = Integer.parseInt(list1.get(0).get("GROUP_CODE").toString());
+					boardService.updateGroupMember(target, newPartNum, groupNewName);
+				}
+				//그룹2 사원 리스트 가져오기
+				List<Map<String, Object>> list2 = boardService.getGroupOneMember(groupTwoCode);
+				//그룹2 사원 새로운 부서코드로 update
+				for(int i = 0 ; i < list2.size() ; i++) {
+					int target = Integer.parseInt(list2.get(0).get("GROUP_CODE").toString());
+					boardService.updateGroupMember(target, newPartNum, groupNewName);
+				}
+				//그룹1 삭제
+				boardService.deleteGroup(groupOneCode);
+				boardService.deleteGroup(groupTwoCode);
+			}
+			return "0";			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	@ResponseBody
+	@RequestMapping("/groupNameUpdateLv2")
+	public String groupNameUpdateLv2(GroupVO groupVO, @RequestParam("new_name") String new_name, @RequestParam("level_2_code") int level_2_code) throws Exception{
+		try {
+			log.info(level_2_code+" "+new_name);
+			//해당 그룹 멤버 리스트 불러오기
+			List<Map<String, Object>> list = boardService.getGroupOneMember(level_2_code);
+			//해당 팀 유저 정보 수정
+			for(int i = 0; i < list.size() ; i++) {
+				String target = list.get(i).get("GROUP_NM").toString();
+				boardService.updateGroupName(target, new_name);
+				log.info(target);
+			}
+			//해당 팀 이름 수정
+			boardService.updateTeamName(level_2_code, new_name);
+			return "0";
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/groupNameUpdateLv3")
+	public String groupNameUpdateLv3(GroupVO groupVO, @RequestParam("new_name") String new_name, @RequestParam("level_3_code") int level_3_code) throws Exception{
+		try {
+			log.info(level_3_code+" "+new_name);
+			//해당 그룹 멤버 리스트 불러오기
+			List<Map<String, Object>> list = boardService.getGroupOneMember(level_3_code);
+			//해당 팀 유저 정보 수정
+			for(int i = 0; i < list.size() ; i++) {
+				String target = list.get(i).get("GROUP_NM").toString();
+				boardService.updateGroupName(target, new_name);
+				log.info(target);
+			}
+			//해당 팀 이름 수정
+			boardService.updateTeamName(level_3_code, new_name);
+			return "0";
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/groupNameUpdateLv4")
+	public String groupNameUpdateLv4(GroupVO groupVO, @RequestParam("new_name") String new_name, @RequestParam("level_4_code") int level_4_code) throws Exception{
+		try {
+			log.info(level_4_code+" "+new_name);
+			//해당 그룹 멤버 리스트 불러오기
+			List<Map<String, Object>> list = boardService.getGroupOneMember(level_4_code);
+			//해당 팀 유저 정보 수정
+			for(int i = 0; i < list.size() ; i++) {
+				String target = list.get(i).get("GROUP_NM").toString();
+				boardService.updateGroupName(target, new_name);
+				log.info(target);
+			}
+			//해당 팀 이름 수정
+			boardService.updateTeamName(level_4_code, new_name);
+			return "0";
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	//삭제할 때 이름 맞는지 확인 (레벨3)
+	@ResponseBody
+	@RequestMapping("/groupDeleteCheckLv3")
+	public String groupDeleteCheckLv3(GroupVO groupVO, @RequestParam("remove_name") String remove_name, @RequestParam("level_3_code") int level_3_code) throws Exception{
+		try {
+			log.info("삭제할 부서 정보: "+remove_name+" "+level_3_code);
+			String target = boardService.deleteCheckLv3(level_3_code);
+			if(target.equals(remove_name)) {
+				log.info("삭제 가능");
+				return "0";
+			}else {
+				log.info("삭제 불가능");
+				return "1";
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	//삭제할 때 이름 맞는지 확인 (레벨4)
+		@ResponseBody
+		@RequestMapping("/groupDeleteCheckLv4")
+		public String groupDeleteCheckLv4(GroupVO groupVO, @RequestParam("remove_name") String remove_name, @RequestParam("level_4_code") int level_4_code) throws Exception{
+			try {
+				log.info("삭제할 부서 정보: "+remove_name+" "+level_4_code);
+				String target = boardService.deleteCheckLv3(level_4_code);
+				log.info(target);
+				if(target.equals(remove_name)) {
+					log.info("삭제 가능");
+					return "0";
+				}else {
+					log.info("삭제 불가능");
+					return "1";
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return "1";
+			}
+		}
+	
+	//레벨 별 부서 삭제
+	@ResponseBody
+	@RequestMapping("/groupDeleteLv3")
+	public String groupDeleteLv3(GroupVO groupVO, @RequestParam("remove_name") String remove_name, @RequestParam("level_3_code") int level_3_code) throws Exception{
+		try {
+			log.info(level_3_code+" "+remove_name);
+			//해당 그룹 멤버 리스트 불러오기
+			List<Map<String, Object>> list = boardService.getGroupOneMember(level_3_code);
+			if(list.size() != 0) {
+				return "1";
+				//만약 리스트에 직원이 들어있으면 삭제할 수 없도록 한다.
+			}else {
+				boardService.deleteGroup(level_3_code);
+				return "0";
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "1";
+		}
+	}
+	
+	//레벨 별 부서 삭제
+		@ResponseBody
+		@RequestMapping("/groupDeleteLv4")
+		public String groupDeleteLv4(GroupVO groupVO, @RequestParam("remove_name") String remove_name, @RequestParam("level_4_code") int level_4_code) throws Exception{
+			try {
+				log.info(level_4_code+" "+remove_name);
+				//해당 그룹 멤버 리스트 불러오기
+				List<Map<String, Object>> list = boardService.getGroupOneMember(level_4_code);
+				if(list.size() != 0) {
+					return "1";
+					//만약 리스트에 직원이 들어있으면 삭제할 수 없도록 한다.
+				}else {
+					boardService.deleteGroup(level_4_code);
+					return "0";
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return "1";
+			}
+		}
 }

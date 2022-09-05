@@ -46,4 +46,20 @@ public interface BoardMapper {
 	public int groupCheck(int level_3_code) throws Exception;
 
 	public int bigGroupCheck(int level_2_code) throws Exception;
+
+	public int getnewPartNum(int group_cd) throws Exception;
+
+	public void makeNewPart(@Param("newPartNum") int newPartNum,@Param("level_3_code") int level_3_code, @Param("groupNewName") String groupNewName) throws Exception;
+
+	List<Map<String, Object>> getGroupOneMember(int groupOneCode) throws Exception;
+
+	public void updateGroupMember(@Param("target") int target, @Param("newPartNum") int newPartNum, @Param("groupNewName") String groupNewName) throws Exception;
+
+	public void deleteGroup(int group_code) throws Exception;
+
+	public void updateGroupName(@Param("target") String target, @Param("new_name") String new_name) throws Exception;
+
+	public void updateTeamName(@Param("level_3_code") int level_3_code,@Param("new_name") String new_name) throws Exception;
+
+	public String deleteCheckLv3(int level_3_code) throws Exception;
 }

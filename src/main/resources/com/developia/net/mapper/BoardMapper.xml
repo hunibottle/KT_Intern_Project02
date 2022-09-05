@@ -147,4 +147,53 @@ INSERT INTO NS_GROUP
     A WHERE ROWNUM = 1
 ) B
 </select>
+
+<select id="getnewPartNum" resultType="int">
+	SELECT GROUP_CODE
+	FROM
+		(
+			SELECT * FROM NS_GROUP 
+			WHERE GROUP_PCODE = #{group_cd}
+			ORDER BY GROUP_CODE DESC
+		) A
+	WHERE ROWNUM = 1
+	GROUP BY GROUP_CODE
+</select>
+
+<insert id = "makeNewPart">
+INSERT INTO NS_GROUP
+	VALUES
+		(
+			SEQ_GROUP.NEXTVAL,
+			10010,
+			#{newPartNum},
+			#{level_3_code},
+			#{groupNewName}
+		)
+</insert>
+
+<select id="getGroupOneMember" resultType="map">
+	SELECT * FROM NS_USER WHERE GROUP_CODE = #{groupOneCode}
+</select>
+
+ <update id ="updateGroupMember" parameterType="com.developia.net.domain.UserVO">
+	UPDATE NS_USER SET GROUP_NM = #{groupNewName}, GROUP_CODE = #{newPartNum} where GROUP_CODE = #{target}
+</update>
+
+<delete id="deleteGroup">
+	DELETE FROM NS_GROUP WHERE GROUP_CODE = #{group_code}
+</delete>
+
+<update id="updateGroupName" parameterType="com.developia.net.domain.UserVO">
+	UPDATE NS_USER SET GROUP_NM = #{new_name} where GROUP_NM = #{target}
+</update>
+
+<update id="updateTeamName" parameterType="com.developia.net.domain.GroupVO">
+	UPDATE NS_GROUP SET GROUP_NM = #{new_name} where GROUP_CODE = #{level_3_code}
+</update>
+
+<select id="deleteCheckLv3" resultType="string">
+	SELECT GROUP_NM FROM NS_GROUP WHERE GROUP_CODE = #{level_3_code}
+</select>
+
 </mapper>

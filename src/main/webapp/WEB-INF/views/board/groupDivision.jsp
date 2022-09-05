@@ -19,7 +19,7 @@ button.on{
 	<div class="w3-content w3-container w3-margin-top">
 		<div class="w3-container w3-card-4">
 			<div class="w3-center w3-large w3-margin-top">
-				<h3>부서 삭제</h3>
+				<h3>부서 분리</h3>
 			</div>
 			<div>
 				<p class="w3-center">
@@ -36,11 +36,11 @@ button.on{
 				
 				</div>
 				<p>
-					<label>삭제 부서 재확인</label>
-					<input class="w3-input" id="group_nm" name="group_nm" type="text" required>
+					<label>부서명</label>
+					<input class="w3-input" id="grade_nm" name="grade_nm" type="text" value="${list[0].GROUP_NM}" required>
 				</p>
 				<p class="w3-center">
-					<button type="submit" id="updateGroup" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onClick="groupDelete()">부서 삭제</button>
+					<button type="submit" id="updateGroup" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onClick="groupPlus()">부서 추가</button>
 				</p>
 			</div>
 		</div>
@@ -56,7 +56,6 @@ button.on{
 	
 	var level_2_code;
 	var level_3_code;
-	var level_4_code;
 	
 	function funcLevel2(Lv2Pcode, Gcode){
 		status = 0;
@@ -160,7 +159,7 @@ button.on{
 				for(let pp of result){
 					var group_name = pp.GROUP_NM;
 					var group_code = pp.GROUP_CODE;
-					var html_btn = '<button id="btn_level4_'+group_name+'" type="button" class="btn btn-success m-1" value="'+group_code+'" style="width:140px" onClick="final('+group_code+',this.id)">'+group_name+'</button>'
+					var html_btn = '<button id="btn_level4_'+group_name+'" type="button" class="btn btn-success m-1" style="width:140px" onClick="final('+group_code+',this.id)">'+group_name+'</button>'
 					$('#level4').append(html_btn);
 				}
 				var html_btn = '<button id="btn_level4" type="button" class="btn btn-success m-1" style="width:125px; background-color:#949794" onClick="plusGroup('+level_2_code+','+level_3_code+')">선택</button>'
@@ -172,7 +171,7 @@ button.on{
 	
 	function final(fcode, id){
 		level_4_id = id;
-		level_4_code = fcode;
+		
 		console.log("최종 선택"+level_2_id+" "+level_3_id+" "+level_4_id)
 		//document.getElementById(level_2_id).style = "background-color:#25C5F7; width:140px";
 		//document.getElementById(level_3_id).style = "background-color:#25C5F7; width:140px";
@@ -180,82 +179,40 @@ button.on{
 	}
 
 	
-	function groupDelete(){
-		console.log("삭제 될 부서의 부서코드");
-		console.log(level_2_code+" "+level_3_code+" "+level_4_code);
-		var remove_name = document.getElementById('group_nm').value;
-		console.log("삭제 그룹"+remove_name);
-		//일요일 작업
-		//delete ajax 만들기
-		//첫번째로 해당 부서에 유저가 존재하는지 판단해야함
-		//이후 유저가 없다면 삭제
-		//새로 변경될 부서 코드
-		//레벨별 undefine if / else로 구분한다음 해당 레벨값 업데이트 하면 됨
-		
-		if(level_4_code === undefined && level_3_code !== undefined){
-			console.log("level3수정");
-			//재확인 먼저 수행
+	function groupPlus(){
+		const groupName = document.getElementById('grade_nm').value;
+		console.log(level_2_code+" "+level_3_code+" "+groupName);
+		if(level_3_code !== undefined){
 			$.ajax({
 				type:"post",
-				url:"${contextPath}/board/groupDeleteCheckLv3",
-				data:{"level_3_code": level_3_code, "remove_name":remove_name},
+				url:"${contextPath}/board/groupPlus",
+				data:{"level_2_code": level_2_code, "level_3_code":level_3_code, "groupName":groupName},
 				dataType: "text",
 				success: function(result){
-					 if(result == "0"){
-						 $.ajax({
-								type:"post",
-								url:"${contextPath}/board/groupDeleteLv3",
-								data:{"level_3_code": level_3_code, "remove_name":remove_name},
-								dataType: "text",
-								success: function(result){
-									 if(result == "0"){
-										alert('삭제가 완료 되었습니다.');
-										window.location.href="/CRUDproject/board/tree";
-									}else{
-										alert('해당 부서에 직원이 존재합니다.');
-									} 
-								}
-								,error: function(e){
-									console.log(e);
-								}
-							})
+					console.log(result);
+					if(result == "0"){
+						window.location.href="/CRUDproject/board/tree";
 					}else{
-						alert('삭제 부서를 다시 한 번 확인해 주세요.');
-					} 
+						console.log("error");
+					}
 				}
 				,error: function(e){
 					console.log(e);
 				}
-			})
-		}else if(level_4_code !== undefined && level_3_code !== undefined){
-			console.log("레벨4 파트 삭제"+level_4_code);
+			})	
+		}else{
 			$.ajax({
 				type:"post",
-				url:"${contextPath}/board/groupDeleteCheckLv4",
-				data:{"level_4_code": level_4_code, "remove_name":remove_name},
+				url:"${contextPath}/board/bigGroupPlus",
+				data:{"level_2_code": level_2_code, "groupName":groupName},
 				dataType: "text",
 				success: function(result){
-					 if(result == "0"){
-						 $.ajax({
-								type:"post",
-								url:"${contextPath}/board/groupDeleteLv4",
-								data:{"level_4_code": level_4_code, "remove_name":remove_name},
-								dataType: "text",
-								success: function(result){
-									 if(result == "0"){
-										alert('삭제가 완료 되었습니다.');
-										window.location.href="/CRUDproject/board/tree";
-									}else{
-										alert('해당 부서에 직원이 존재합니다.');
-									} 
-								}
-								,error: function(e){
-									console.log(e);
-								}
-							})
+					console.log(result);
+					if(result == "0"){
+						window.location.href="/CRUDproject/board/tree";
 					}else{
-						alert('삭제 부서를 다시 한 번 확인해 주세요.');
-					} 
+						console.log("error");
+					}
 				}
 				,error: function(e){
 					console.log(e);
@@ -263,6 +220,6 @@ button.on{
 			})
 		}
 	}
-
+	
 </script>
 </html>
