@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.developia.net.domain.GroupVO;
+import com.developia.net.domain.UpdateVO;
 import com.developia.net.domain.UserVO;
 
 public interface BoardService {
@@ -57,5 +58,21 @@ public interface BoardService {
 	public void updateTeamName(int level_3_code, String new_name) throws Exception;
 
 	public String deleteCheckLv3(int level_3_code) throws Exception;
+
+	public void upDateUserTable(String userName, String content) throws Exception;
+
+	List<UpdateVO> getUpdateList() throws Exception;
+
+	List<UserVO> getAllUserList() throws Exception;
+
+	List<Map<String, Object>> getSearchList(String keyword, int option) throws Exception;
+
+	List<Map<String, Object>> nameAutoComplete(Map<String, Object> paramMap, String value, int option) throws Exception;
+
+	public String getGroupName(int groupOneCode) throws Exception;
+
+	public void userDelete(String user_id) throws Exception;
+
+	public String getUserNameID(String user_id) throws Exception;
 
 }

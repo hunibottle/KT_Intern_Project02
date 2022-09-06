@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.developia.net.domain.GroupVO;
+import com.developia.net.domain.UpdateVO;
 import com.developia.net.domain.UserVO;
 
 public interface BoardMapper {
@@ -62,4 +63,20 @@ public interface BoardMapper {
 	public void updateTeamName(@Param("level_3_code") int level_3_code,@Param("new_name") String new_name) throws Exception;
 
 	public String deleteCheckLv3(int level_3_code) throws Exception;
+
+	public void upDateUserTable(@Param("userName") String userName, @Param("content") String content) throws Exception;
+
+	List<UpdateVO> getUpdateList() throws Exception;
+	
+	List<UserVO> getAllUserList() throws Exception;
+
+	List<Map<String, Object>> getSearchList(@Param("keyword") String keyword,@Param("option") int option) throws Exception;
+
+	List<Map<String, Object>> nameAutoComplete(@Param("paramMap") Map<String, Object> paramMap, @Param("value") String value, @Param("option") int option) throws Exception;
+
+	public String getGroupName(int groupOneCode) throws Exception;
+
+	public void userDelete(String user_id) throws Exception;
+
+	public String getUserNameID(String user_id) throws Exception;
 }

@@ -30,6 +30,7 @@
 	<script src="../../../jquery.treeview.js" type="text/javascript"></script>
 
 	<script>
+	
 	function showList(code){
 		console.log(code);
 		$("#browser li ul").empty();
@@ -126,6 +127,7 @@
             	for(let pp of result){
 					console.log(pp);
 					var user_nm = pp.USER_NM;
+					var user_num = pp.USER_NUM;
 					var title_nm = pp.TITLE_NM;
 					var grade_nm = pp.GRADE_NM;
 					var group_nm = pp.GROUP_NM;
@@ -136,6 +138,7 @@
 					inner += '<tr onclick="detail(\''+user_nm+'\')">'
 					inner += '<td style="text-align:center"><a href="${contextPath}/board/userUpdate/'+user_nm+'">수정</a></td>'
 					inner += '<td style="text-align:center">'+user_nm+'</td>';
+					inner += '<td style="text-align:center">'+user_num+'</td>';
 					inner += '<td style="text-align:center">'+grade_nm+'</td>';
 					inner += '<td style="text-align:center">'+group_nm+'</td>';
 					inner += '<td style="text-align:center">'+user_email+'</td>';
@@ -315,12 +318,10 @@
 			                            </script>
 		                            <div class="col-sm-6">
 		                            	<label style="float: left;">검색 조건 
-				                          <select id="select_value" name="dataTables-example_length" aria-controls="dataTables-example" class="form-control input-sm">
-				                          		<option value="1">담당업무</option>
-				                            	<option value="10">대분류</option>
-				                           	 	<option value="25">중분류</option>
-				                            	<option value="50">시스템</option>
-				                            	<option value="100">담당자</option>
+				                          <select id="select_value" name="dataTables-example_length" aria-controls="dataTables-example" class="form-control input-sm" style="margin-left: 20px">
+				                          		<option value="1">이름</option>
+				                            	<option value="10">사번</option>
+				                           	 	<option value="25">부서</option>
 				                          </select>
 				                    	</label>
 		                            	<div id="dataTables-example_filter" class="dataTables_filter" style="margin-left:200px;">
@@ -336,7 +337,7 @@
 				                            		console.log(option);
 				                            		$.ajax({
 				                            			type:"post",
-				                            			url:"/memberProject/user/getSearchList",
+				                            			url:"${contextPath}/board/getSearchList",
 				                            			data:{"keyword":keyword, "option":option},
 				                            			dataType:"json",
 				                            			success: function(result){
@@ -347,22 +348,24 @@
 				                            				for(let pp of result){
 				                            					console.log(pp);
 				                            					var num = pp.USER_SEQ;
-				                            					var ud = pp.USER_DEPARTMENT;
-				                            					var uc = pp.USER_CATEGORY;
-				                            					var uw = pp.USER_WORK;
-				                            					var un = pp.USER_NAME;
-				                            					var us = pp.USER_STATE;
-				                            					var up = pp.USER_PHONE;
-				                            					var content =pp.WORK_CONTENT;
-				                            					var position = pp.USER_POSITION;
+				                            					var userName = pp.USER_NM;
+				                            					var userNum = pp.USER_NUM;
+				                            					var userGrade = pp.GRADE_NM;
+				                            					var userGroup = pp.GROUP_NM;
+				                            					var userEmail = pp.USER_EMAIL;
+				                            					var userOffice = pp.USER_OFFICE;
+				                            					var userMobile =pp.USER_MOBILE;
+				                            					//var position = pp.USER_POSITION;
 				                            					var inner ="";
 				                            					inner += '<tr onclick="detail('+num+')">'
-				                            					inner += '<td style="text-align:center">'+ud+'</td>';
-				                            					inner += '<td style="text-align:center">'+uc+'</td>';
-				                            					inner += '<td style="text-align:center">'+uw+'</td>';
-				                            					inner += '<td style="text-align:center">'+un+'</td>';
-				                            					inner += '<td style="text-align:center">'+position+'</td>';
-				                            					inner += '<td style="text-align:center">'+up+'</td>';
+				                            					inner += '<td style="text-align:center"><a href="${contextPath}/board/userUpdate/'+userName+'">수정</a></td>'
+				                            					inner += '<td style="text-align:center">'+userName+'</td>';
+				                            					inner += '<td style="text-align:center">'+userNum+'</td>';
+				                            					inner += '<td style="text-align:center">'+userGrade+'</td>';
+				                            					inner += '<td style="text-align:center">'+userGroup+'</td>';
+				                            					inner += '<td style="text-align:center">'+userEmail+'</td>';
+				                            					inner += '<td style="text-align:center">'+userOffice+'</td>';
+				                            					inner += '<td style="text-align:center">'+userMobile+'</td>';
 				                            					inner += '</tr>'
 				                            					$('#userList > tbody:last').append(inner);
 				                            				}
@@ -380,7 +383,7 @@
 					                            			console.log(value);
 					                            			$.ajax({
 					                            				type:"post",
-						                            			url:"/memberProject/user/autoComplete",
+					                            				url:"${contextPath}/board/nameAutoComplete",
 						                            			data:{"value":value, "option":option},
 						                            			dataType:"json",
 						                            			success:function(data){
@@ -388,8 +391,8 @@
 							                            				response(
 							                            						$.map(data.resultList, function(item){
 							                            							return{
-							                            									label:item.WORK_CONTENT,
-								                            								value:item.WORK_CONTENT
+							                            									label:item.USER_NM,
+								                            								value:item.USER_NM
 							                            							};
 							                            						})
 							                            					);
@@ -397,8 +400,8 @@
 								                            				response(
 								                            						$.map(data.resultList, function(item){
 								                            							return{
-								                            									label:item.USER_DEPARTMENT,
-									                            								value:item.USER_DEPARTMENT
+								                            									label:item.USER_NM,
+									                            								value:item.USER_NM
 								                            							};
 								                            						})
 								                            					);
@@ -406,8 +409,8 @@
 						                            					response(
 							                            						$.map(data.resultList, function(item){
 							                            							return{
-							                            									label:item.USER_CATEGORY,
-								                            								value:item.USER_CATEGORY
+							                            									label:item.USER_NM,
+								                            								value:item.USER_NM
 							                            							};
 							                            						})
 							                            					);
@@ -415,8 +418,8 @@
 						                            					response(
 							                            						$.map(data.resultList, function(item){
 							                            							return{
-							                            									label:item.USER_WORK,
-								                            								value:item.USER_WORK
+							                            									label:item.USER_NM,
+								                            								value:item.USER_NM
 							                            							};
 							                            						})
 							                            					);
@@ -424,8 +427,8 @@
 						                            					response(
 							                            						$.map(data.resultList, function(item){
 							                            							return{
-							                            									label:item.USER_NAME,
-								                            								value:item.USER_NAME
+							                            									label:item.USER_NM,
+								                            								value:item.USER_NM
 							                            							};
 							                            						})
 							                            					);
@@ -460,87 +463,33 @@
                                 <tr role="row">
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 10px; text-align:center"></th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 40px; text-align:center">이름</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 40px; text-align:center">사번</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 30px; text-align:center">직책</th>
-                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 50px; text-align:center">부서</th>
-                                    <th class="sorting" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">이메일</th>
+                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 60px; text-align:center">부서</th>
+                                    <th class="list_class" onclick="nameSort()" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">이메일</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">내선번호</th>
                                     <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px; text-align:center">휴대폰 번호</th>
                                 </tr>
                                 </thead>
                                 
-	                                <tbody><tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">개인전화</td>
-	                                	<td style="text-align:center">이주형</td>
-	                                	<td style="text-align:center">주임</td>
-	                                	<td style="text-align:center">070-8109-1280</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">현장지원</td>
-	                                	<td style="text-align:center">Hy-Any</td>
-	                                	<td style="text-align:center">이주형</td>
-	                                	<td style="text-align:center">주임</td>
-	                                	<td style="text-align:center">070-8109-1280</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">청구</td>
-	                                	<td style="text-align:center">김성민</td>
-	                                	<td style="text-align:center">과장</td>
-	                                	<td style="text-align:center">070-8109-1272</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">고객관리</td>
-	                                	<td style="text-align:center">김성민</td>
-	                                	<td style="text-align:center">과장</td>
-	                                	<td style="text-align:center">070-8109-1272</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">재고관리</td>
-	                                	<td style="text-align:center">박진석</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1282</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">수수료관리</td>
-	                                	<td style="text-align:center">박진석</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1282</td>
-	                                </tr>
-                                
-	                                <tr>
-	                                	<td style="text-align:center">수정</td>
-	                                	<td style="text-align:center">고객관리시스템</td>
-	                                	<td style="text-align:center">가입자관리</td>
-	                                	<td style="text-align:center">CLOUD UI</td>
-	                                	<td style="text-align:center">박진석</td>
-	                                	<td style="text-align:center">대리</td>
-	                                	<td style="text-align:center">070-8109-1282</td>
-	                                </tr>
-                                
-                            </tbody></table>
-                            </div></div>
-                            <div class="row">
+	                            <tbody>
+	                            	<c:forEach items="${list3}" var="user">
+		                                <tr>
+		                                	<td style="text-align:center"><a href="${contextPath}/board/userUpdate/${user.user_nm}">수정</a></td>
+		                                	<td style="text-align:center">${user.user_nm}</td>
+		                                	<td style="text-align:center">${user.user_num}</td>
+		                                	<td style="text-align:center">${user.grade_nm}</td>
+		                                	<td style="text-align:center">${user.group_nm}</td>
+		                                	<td style="text-align:center">${user.user_email}</td>
+		                                	<td style="text-align:center">${user.user_office}</td>
+		                                	<td style="text-align:center">${user.user_mobile}</td>
+		                                </tr>
+	                                </c:forEach>
+                            		</tbody>
+                            	</table>
+                            </div>
+                         </div>
+                        <div class="row">
 
                         <!-- Content Column -->
                         <div class="col-lg-6 mb-4">
@@ -548,32 +497,32 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">조직 구성원 (명)</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">조직 구성원 249 (명)</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small font-weight-bold">법무컴플라이언스팀<span class="float-right">20%</span></h4>
+                                    <h4 class="small font-weight-bold">법무컴플라이언스팀<span class="float-right">3명</span></h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 3%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">미디어전략TF<span class="float-right">40%</span></h4>
+                                    <h4 class="small font-weight-bold">미디어전략TF<span class="float-right">4명</span></h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 4%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">경영기획총괄<span class="float-right">60%</span></h4>
+                                    <h4 class="small font-weight-bold">경영기획총괄<span class="float-right">46명</span></h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar" role="progressbar" style="width: 46%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">고객총괄<span class="float-right">80%</span></h4>
+                                    <h4 class="small font-weight-bold">고객총괄<span class="float-right">100명</span></h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">기술IT지원실<span class="float-right">Complete!</span></h4>
+                                    <h4 class="small font-weight-bold">기술IT지원실<span class="float-right">68명</span></h4>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 68%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">보도제작사업부(서울)<span class="float-right">Complete!</span></h4>
+                                    <h4 class="small font-weight-bold">보도제작사업부(서울)<span class="float-right">28명</span></h4>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 28%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
@@ -587,29 +536,27 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">최근 업데이트 내역</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw →</a>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
+                                <div class="card-body" style="height: 394px">
+                                    <table id="updateList" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+	                                <thead>
+	                                <tr role="row">
+	                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" style="width: 5px; text-align:center">번호</th>
+	                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 20px; text-align:center">대상</th>
+	                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 20px; text-align:center">시간</th>
+	                                    <th class="list_class" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 150px; text-align:center">내용</th>
+	                                </tr>
+	                                </thead>
+	                                <tbody>
+	                                <c:forEach items="${list2}" var="update">
+	                                <tr>
+	                                	<td style="text-align:center">${update.update_seq}</td>
+	                                	<td style="text-align:center">${update.update_name}</td>
+	                                	<td style="text-align:center"><fmt:formatDate value="${update.update_time}" pattern="yyyy-MM-dd"/></td>
+	                                	<td>${update.update_content}</td>
+	                                </tr>
+	                                </c:forEach>
+	                                </tbody>
+	                                </table>
                                 </div>
                             </div>
 

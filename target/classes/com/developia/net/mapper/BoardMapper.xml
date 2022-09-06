@@ -36,11 +36,11 @@
 
 
 <select id="getMember" resultType="map">
-	SELECT B.GROUP_CODE, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
+	SELECT B.GROUP_CODE, B.USER_NUM, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
 	(	
-		SELECT GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
+		SELECT GROUP_CODE, USER_NM, USER_NUM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
 		(
-			SELECT GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
+			SELECT GROUP_CODE, USER_NM, USER_NUM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
 			FROM NS_USER NU
 			JOIN NS_USER_GRADE NUG
 			ON NU.GRADE_CODE = NUG.GRADE_CODE
@@ -54,11 +54,11 @@
 </select>
 
 <select id="getUserDetail" resultType="map">
-	SELECT B.USER_ID, B.GROUP_CODE, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
+	SELECT B.USER_ID, B.GROUP_CODE, B.USER_NUM, B.USER_NM, B.USER_OFFICE, B.USER_MOBILE, B.USER_EMAIL, B.TITLE_NM, B.GRADE_NM, GROUP_NM FROM
 	(	
-		SELECT USER_ID, GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
+		SELECT USER_ID, GROUP_CODE, USER_NUM, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, TITLE_NM, GRADE_NM FROM
 		(
-			SELECT USER_ID, GROUP_CODE, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
+			SELECT USER_ID, GROUP_CODE, USER_NUM, USER_NM, USER_OFFICE, USER_MOBILE, USER_EMAIL, USER_TITLE, GRADE_NM
 			FROM NS_USER NU
 			JOIN NS_USER_GRADE NUG
 			ON NU.GRADE_CODE = NUG.GRADE_CODE
@@ -196,4 +196,71 @@ INSERT INTO NS_GROUP
 	SELECT GROUP_NM FROM NS_GROUP WHERE GROUP_CODE = #{level_3_code}
 </select>
 
+<insert id="upDateUserTable">
+	<selectKey keyProperty="update_seq" order="BEFORE" resultType="int">
+        SELECT SEQ_UPDATE.nextval from dual
+    </selectKey>
+	INSERT INTO NS_USER_UPDATE
+		VALUES
+			(
+			#{update_seq},
+			TO_DATE(SYSDATE,'yyyy.mm.dd'),
+			#{content},
+			#{userName}
+			)
+</insert>
+
+<select id="getUpdateList" resultType="com.developia.net.domain.UpdateVO">
+	SELECT * FROM (
+		SELECT * FROM NS_USER_UPDATE
+		ORDER BY UPDATE_SEQ DESC
+		) WHERE ROWNUM <![CDATA[<=]]> 8
+</select>
+
+<select id="getAllUserList" resultType="com.developia.net.domain.UserVO">
+	SELECT USER_NM, USER_NUM, NUS.GRADE_NM, GROUP_NM, USER_EMAIL, USER_OFFICE, USER_MOBILE 
+	FROM NS_USER NU
+	INNER JOIN NS_USER_GRADE NUS
+	ON NU.GRADE_CODE = NUS.GRADE_CODE
+	WHERE GRADE_NM = '국장' OR GRADE_NM = '부국장' OR GRADE_NM = '부장'
+</select>
+
+<select id="getSearchList" resultType="map">
+	SELECT USER_NM, USER_NUM, NUS.GRADE_NM, GROUP_NM, USER_EMAIL, USER_OFFICE, USER_MOBILE 
+	FROM NS_USER NU
+	INNER JOIN NS_USER_GRADE NUS
+	ON NU.GRADE_CODE = NUS.GRADE_CODE
+	<bind name="options" value="option"/>
+	<if test="options == 1">
+	WHERE USER_NM LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="options == 10">
+	WHERE USER_NUM LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="options == 25">
+	WHERE GROUP_NM LIKE '%'||#{keyword}||'%'
+	</if>
+</select>
+
+<select id="nameAutoComplete" parameterType="map" resultType="map">
+	SELECT
+	<bind name="options" value ="option"/>
+	<if test="options == 1">
+	DISTINCT USER_NM
+	FROM NS_USER
+	WHERE USER_NM LIKE '%'||#{value}||'%'
+	</if>
+</select>
+
+<select id="getGroupName" resultType="string">
+	SELECT GROUP_NM FROM NS_GROUP WHERE GROUP_CODE = #{groupOneCode}
+</select>
+
+<delete id="userDelete">
+	DELETE FROM NS_USER WHERE USER_ID = #{user_id}
+</delete>
+
+<select id="getUserNameID" resultType="string">
+	SELECT USER_NM FROM NS_USER WHERE USER_ID = #{user_id}
+</select>
 </mapper>

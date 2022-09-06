@@ -18,6 +18,7 @@ public class UserVO {
 	private String user_mobile;
 	private String user_title;
 	private String grade_nm;
+	private String group_nm;
 	
 	private List<GroupVO> groupList;
 	private List<TitleVO> titleList;

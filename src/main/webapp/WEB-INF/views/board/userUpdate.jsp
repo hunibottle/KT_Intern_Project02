@@ -68,6 +68,7 @@
 				<br />
 				<form id="updateGroup" action="${contextPath}/board/updateGroup" method="post">	
 					<input type="hidden" id="user_id" name="user_id" value="${list[0].USER_ID}">
+					<input type="hidden" id="user_nm" name="user_nm" value="${list[0].USER_NM}">
 					<input type="hidden" id="group_code" name="group_code" value="${list[0].GROUP_CODE}">
 					<p>
 						<label>현재 부서</label>
@@ -83,7 +84,7 @@
 				</form>
 				
 					<p class="w3-center">
-						<button type="submit" id="deleteUser" class="w3-button w3-red w3-red w3-ripple w3-margin-top w3-round">직원 삭제</button>
+						<button type="submit" id="deleteUser" class="w3-button w3-red w3-red w3-ripple w3-margin-top w3-round" onClick="deleteUser()">직원 삭제</button>
 					</p>
 			</div>
 		</div>
@@ -116,5 +117,24 @@ $('#new_group').autocomplete({
 		})
 	}
 })
+
+function deleteUser(){
+	var user_id = document.getElementById('user_id').value;
+	console.log(user_id+"삭제")
+	$.ajax({
+			type:"post",
+			url:"${contextPath}/board/userDelete",
+			data:{"user_id":user_id},
+			dataType:"json",
+			success: function(result){
+				if(result == '1'){
+					alert("삭제 성공");
+					window.location.href="/CRUDproject/board/tree";
+				}else{
+					alert("삭제 실패");
+				}
+			}
+	})
+}
 </script>
 </html>

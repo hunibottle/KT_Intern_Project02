@@ -34,9 +34,6 @@
 						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onclick="location.href='${contextPath}/board/groupSum'">부서 병합</button>
 					</p>
 					<br />
-					<p class="w3-center">
-						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round" onclick="location.href='${contextPath}/board/groupDivision'">부서 분리</button>
-					</p>
 			</div>
 		</div>
 	</div>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.developia.net.domain.GroupVO;
+import com.developia.net.domain.UpdateVO;
 import com.developia.net.domain.UserVO;
 import com.developia.net.mapper.BoardMapper;
 
@@ -168,6 +169,55 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String deleteCheckLv3(int level_3_code) throws Exception {
 		return boardMapper.deleteCheckLv3(level_3_code);
+	}
+
+
+	@Override
+	public void upDateUserTable(String userName, String content) throws Exception {
+		boardMapper.upDateUserTable(userName, content);
+	}
+
+
+	@Override
+	public List<UpdateVO> getUpdateList() throws Exception {
+		return boardMapper.getUpdateList();
+	}
+
+
+	@Override
+	public List<UserVO> getAllUserList() throws Exception {
+		return boardMapper.getAllUserList();
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getSearchList(String keyword, int option) throws Exception {
+		return boardMapper.getSearchList(keyword, option);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> nameAutoComplete(Map<String, Object> paramMap, String value, int option)
+			throws Exception {
+		return boardMapper.nameAutoComplete(paramMap, value, option);
+	}
+
+
+	@Override
+	public String getGroupName(int groupOneCode) throws Exception {
+		return boardMapper.getGroupName(groupOneCode);
+	}
+
+
+	@Override
+	public void userDelete(String user_id) throws Exception {
+		boardMapper.userDelete(user_id);
+	}
+
+
+	@Override
+	public String getUserNameID(String user_id) throws Exception {
+		return boardMapper.getUserNameID(user_id);
 	}
 
 
